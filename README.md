@@ -35,7 +35,7 @@ Optional settings you can add later (see upstream's [`.env.example`](https://git
 
 - sets `GOMAXPROCS` from the cgroup CPU limit and `GOMEMLIMIT` at 70% of the memory limit, and turns transparent huge pages off for the Go heap (Railway shows the host's CPUs inside a small service);
 - keeps the database at `/data/fusion.db`, checks the volume is writable and refuses to start without a password, so a broken deploy exits non-zero and Railway restarts it;
-- trusts Railway's proxy range (`100.64.0.0/10`) so the login rate limiter sees the visitor's IP;
+- trusts the forwarding headers of Railway's edge (which replaces any client-sent `X-Forwarded-For`), so the login rate limiter (10 failures a minute, then a 5-minute block) keys on the visitor's IP, not a shared edge address;
 - limits feed pulls to 4 at a time.
 
 ## Updates

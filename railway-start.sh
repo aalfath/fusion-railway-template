@@ -35,9 +35,10 @@ if [ -z "${FUSION_PASSWORD:-}" ] && [ -z "${PASSWORD:-}" ] && [ "${FUSION_ALLOW_
 fi
 export FUSION_DB_PATH="${FUSION_DB_PATH:-/data/fusion.db}"
 export FUSION_PORT="${FUSION_PORT:-${PORT:-8080}}"
-# Railway's edge proxy reaches the service from its private 100.64.0.0/10
-# range; trust it so login rate limiting sees the real visitor IP.
-export FUSION_TRUSTED_PROXIES="${FUSION_TRUSTED_PROXIES:-100.64.0.0/10}"
+# Railway's edge replaces any client-sent X-Forwarded-For with
+# "<visitor IP>, <edge IP>", so trusting every hop makes the login rate
+# limiter key on the visitor's IP instead of a shared edge address.
+export FUSION_TRUSTED_PROXIES="${FUSION_TRUSTED_PROXIES:-0.0.0.0/0,::/0}"
 # Keep feed pulls modest on small plans.
 export FUSION_PULL_CONCURRENCY="${FUSION_PULL_CONCURRENCY:-4}"
 
