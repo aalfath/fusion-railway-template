@@ -12,13 +12,13 @@ A one-click Railway template for [Fusion](https://github.com/0x2E/fusion), a lig
 
 - **Version:** Fusion 1.3.1, official image pinned by version and digest.
 - **Storage:** one Railway volume at `/data`, holding the SQLite database `/data/fusion.db` (feeds, groups, articles, bookmarks, settings).
-- **Memory:** about 20–40 MB in use; fits Railway's Free plan (0.5 GB per service).
+- **Memory:** about 20 MB idle and under 50 MB while pulling 41 feeds (measured on Railway at 0.5 GB / 1 vCPU); fits Railway's Free plan.
 
 ## Variables
 
 | Variable | Default | Notes |
 |---|---|---|
-| `FUSION_PASSWORD` | `${{secret(24)}}` | The login password, generated at deploy. Read it in the service's **Variables** tab. |
+| `FUSION_PASSWORD` | generated 24-character secret | The login password, generated at deploy. Read it in the service's **Variables** tab. |
 | `PORT` | `8080` | Port the app listens on. |
 
 Optional settings you can add later (see upstream's [`.env.example`](https://github.com/0x2E/fusion/blob/v1.3.1/.env.example)): `FUSION_FEVER_USERNAME` (Fever API clients such as Reeder, default `fusion`), `FUSION_PULL_INTERVAL` (seconds, default 1800), `FUSION_OIDC_*` for single sign-on (redirect URI `https://YOUR-DOMAIN/api/oidc/callback`), `FUSION_CORS_ALLOWED_ORIGINS`.
